@@ -48,10 +48,27 @@ def print_introduction():
    print("Для выхода из игры введи одно из слов: {}".format(", ".join(EXIT_WORDS)))
    
    
-def select_word(file_path="hangman_words.txt"):
+def select_word(file_path, used_words):
    with open(file_path, "r", encoding="utf-8") as f:
       lines = f.readlines()
-   return lines
+   
+   while True: # гипотетически бесконечный
+      word = random.choice(lines)
+      if word in used_words:
+         word = random.choice(lines) 
+      else:
+         break
+   
+   return word
+
+
+def get_input():
+   # только буквы, все остальное - ошибка
+   # если вводит правильную, но которую уже вводил, говорим "давай другую", ошибкой не считается
+   # список для введенных правильных и список для введенных неправильных
+   # если вводит НЕправильную, но которую уже вводил, говорим "давай другую", ошибкой не считается
+   pass
+       
 
 # TODO
 def main():
@@ -61,8 +78,12 @@ def main():
    # Проверка буквы в слове (+ счетчик)
    # Вывод промежуточных результатов с картиночкой
    # Продолжаем играть?
+   file_path="hangman_words.txt"
+   used_words = []
+   
    print_introduction()
-   lines = select_word()
+   
+   lines = select_word(file_path, used_words)
    print(lines)
 
 if __name__ == "__main__":
